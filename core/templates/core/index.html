@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <title>Carteira FII</title>
+  <style>
+    tr {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Carteira FII</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <center><h1>Carteira FII</h1></center>
+    {% if resultados %}
+    <table class="table table-hover">
+      <thead>
+        <tr class="table-dark">
+          <th>Cota</th>
+          <th>Quantidade</th>
+          <th>Valor Cota Atual</th>
+          <th>Último pagamento</th>
+          <th>% Rendimento</th>
+          <th>Rendimento Mensal</th>
+          <th>Rendimento Semestral</th>
+          <th>Rendimento Anual</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for r in resultados %}
+        <tr>
+          <td class="table-primary">{{r.cota}}</td>
+          <td class="table-secondary">{{r.quantidade}}</td>
+          <td class="table-secondary">R$ {{r.valor_cota_atual}}</td>
+          <td class="table-secondary">R$ {{r.ultimo_pagamento}}</td>
+          <td class="table-secondary">{{r.porcentagem}} %</td>
+          <td class="table-secondary">R$ {{r.rendimento_mensal}}</td>
+          <td class="table-secondary">R${{r.rendimento_semestral}}</td>
+          <td class="table-secondary">R${{r.rendimento_anual}}</td>
+        </tr>
+        {% endfor %}
+        <tr class="table-dark">
+          <td>TOTAIS</td>
+          <td>{{total_cotas}}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>R$ {{total_mensal}}</td>
+          <td>R$ {{total_semestral}}</td>
+          <td>R$ {{total_anual}}</td>
+        </tr>
+      </tbody>
+    </table>
+    {% else %}
+    <center><h6>Sem resultados...</h6></center>
+    {% endif %}
+    <hr>
+    <center>
+      <h4>Análise de Compra / Rendimento</h4>
+    </center>
+    {% if resultados %}
+    <table class="table table-hover">
+      <thead>
+        <tr class="table-dark">
+          <th>Cota</th>
+          <th>Mensal</th>
+          <th>Semestral</th>
+          <th>Anual</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for r in resultados %}
+        <tr>
+          <td class="table-primary">{{r.cota}}</td>
+          {% if r.sg_mensal >= 1 %}
+              <td style="background-color: green; color: white; text-align: center;">{{r.sg_mensal}}</td>
+          {% else %}
+              <td style="background-color: red; color: white; text-align: center;">{{r.sg_mensal}}</td>
+          {% endif %}
+
+          {% if r.sg_semestral >= 1 %}
+          <td style="background-color: green; color: white; text-align: center;">{{r.sg_semestral}}</td>
+          {% else %}
+          <td style="background-color: red; color: white; text-align: center;">{{r.sg_semestral}}</td>
+          {% endif %}
+
+          {% if r.sg_anual >= 1 %}
+          <td style="background-color: green; color: white; text-align: center;">{{r.sg_anual}}</td>
+          {% else %}
+          <td style="background-color: red; color: white; text-align: center;">{{r.sg_anual}}</td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+      <tr class="table-dark">
+        <td>TOTAIS</td>
+        <td>{{total_sg_mensal}}</td>
+        <td>{{total_sg_semestral}}</td>
+        <td>{{total_sg_anual}}</td>
+      </tr>
+      </tbody>
+
+    </table>
+    {% else %}
+    <center><h6>Sem resultados...</h6></center>
+    {% endif %}
+  </div>
+  </body>
+
+</html>
