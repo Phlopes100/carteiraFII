@@ -4,7 +4,9 @@ import requests
 from django.shortcuts import HttpResponse
 from bs4 import BeautifulSoup
 from django.views.generic import ListView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from core.models import Carteira
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -46,6 +48,7 @@ class CarteiraIndex(ListView):
                 print(f'Rendimento Anual: {rendimento_anual}\n')
 
                 meu_dic = {
+                    'id': cota.id,
                     'cota': cota.nome_cota,
                     'quantidade': cota.quantidade_cota,
                     'ultimo_pagamento': round(ul_pg, 2),
@@ -98,4 +101,25 @@ class CarteiraIndex(ListView):
         data['total_sg_semestral'] = total_sg_semestral
         data['total_sg_anual'] = total_sg_anual
         return data
+
+
+class CarteiraCreate(CreateView):
+    template_name = 'core/adicionar_cota.html'
+    model = Carteira
+    fields = '__all__'
+    success_url = reverse_lazy('index')
+
+
+class CarteiraUpdate(UpdateView):
+    template_name = 'core/atualizar_cota.html'
+    model = Carteira
+    fields = '__all__'
+    success_url = reverse_lazy('index')
+
+
+class CarteiraDelete(DeleteView):
+    template_name = 'core/deletar_cota.html'
+    model = Carteira
+    success_url = reverse_lazy('index')
+
 

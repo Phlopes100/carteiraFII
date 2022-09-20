@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container">
+    <h1>Atualizar Cota</h1>
+    <form method="post">
+        {% csrf_token %}
+    <label>Cota</label>
+    {% render_field form.nome_cota class="form-control" %}
+    <label>Quantidade</label>
+    {% render_field form.quantidade_cota class="form-control" %}
+    <br>
+    <button type="submit" class="btn btn-primary">Atualizar</button>
+    <a href="{% url 'index' %}" class="btn btn-secondary">Voltar</a>
+</form>
+</div>
+
+{% endblock %}

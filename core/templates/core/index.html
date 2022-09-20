@@ -1,38 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-Br">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <title>Carteira FII</title>
-  <style>
-    tr {
-      text-align: center;
-    }
-  </style>
-</head>
-
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Carteira FII</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <div class="container">
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <br>
+    <a href="{% url 'adicionar_cota' %}" class="btn btn-primary">Adicionar</a>
     <center><h1>Carteira FII</h1></center>
     {% if resultados %}
     <table class="table table-hover">
@@ -46,13 +16,16 @@
           <th>Rendimento Mensal</th>
           <th>Rendimento Semestral</th>
           <th>Rendimento Anual</th>
+          <th>Ação</th>
         </tr>
       </thead>
       <tbody>
 
         {% for r in resultados %}
         <tr>
-          <td class="table-primary">{{r.cota}}</td>
+          <td class="table-primary">
+            <a href="{% url 'atualizar_cota' r.id %}">{{r.cota}}</a>
+          </td>
           <td class="table-secondary">{{r.quantidade}}</td>
           <td class="table-secondary">R$ {{r.valor_cota_atual}}</td>
           <td class="table-secondary">R$ {{r.ultimo_pagamento}}</td>
@@ -60,6 +33,9 @@
           <td class="table-secondary">R$ {{r.rendimento_mensal}}</td>
           <td class="table-secondary">R${{r.rendimento_semestral}}</td>
           <td class="table-secondary">R${{r.rendimento_anual}}</td>
+          <td class="table-secondary">
+            <a href="{% url 'deletar_cota' r.id %}">Deletar</a>
+          </td>
         </tr>
         {% endfor %}
         <tr class="table-dark">
@@ -71,6 +47,7 @@
           <td>R$ {{total_mensal}}</td>
           <td>R$ {{total_semestral}}</td>
           <td>R$ {{total_anual}}</td>
+          <td></td>
         </tr>
       </tbody>
     </table>
@@ -127,6 +104,4 @@
     <center><h6>Sem resultados...</h6></center>
     {% endif %}
   </div>
-  </body>
-
-</html>
+{% endblock %}
